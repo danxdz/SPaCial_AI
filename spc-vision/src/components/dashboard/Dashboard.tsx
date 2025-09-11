@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
             <div className="flex items-center">
               <ChartBarIcon className="h-8 w-8 text-primary-600" />
               <h1 className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
-                SPC Vision
+                SPaCial_AI
               </h1>
             </div>
             

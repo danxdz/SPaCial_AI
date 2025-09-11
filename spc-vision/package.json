@@ -1,5 +1,5 @@
 {
-  "name": "spc-vision",
+  "name": "spacial-ai",
   "private": true,
   "version": "1.0.0",
   "description": "A modern Statistical Process Control (SPC) web application for manufacturing quality control",
@@ -12,7 +12,7 @@
     "react",
     "typescript"
   ],
-  "author": "SPC Vision Team",
+  "author": "SPaCial_AI Team",
   "license": "MIT",
   "type": "module",
   "scripts": {

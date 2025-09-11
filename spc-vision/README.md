@@ -1,6 +1,6 @@
-# SPC Vision - Statistical Process Control Web Application
+# SPaCial_AI - Statistical Process Control Web Application
 
-A modern, production-ready Statistical Process Control (SPC) web application built with React 19, TypeScript, and Tailwind CSS. SPC Vision provides comprehensive tools for monitoring and controlling manufacturing processes through statistical analysis and control charts.
+A modern, production-ready Statistical Process Control (SPC) web application built with React 19, TypeScript, and Tailwind CSS. SPaCial_AI provides comprehensive tools for monitoring and controlling manufacturing processes through statistical analysis and control charts.
 
 ## 🚀 Features
 
@@ -287,4 +287,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**SPC Vision** - Empowering quality professionals with modern statistical process control tools.
+**SPaCial_AI** - Empowering quality professionals with modern statistical process control tools.
