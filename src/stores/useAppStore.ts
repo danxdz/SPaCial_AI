@@ -203,7 +203,7 @@ export const useAppStore = create<AppStore>()(
       },
     }),
     {
-      name: 'spc-vision-storage',
+      name: 'spacial-ai-storage',
       partialize: (state) => ({
         processes: state.processes,
         dashboards: state.dashboards,
