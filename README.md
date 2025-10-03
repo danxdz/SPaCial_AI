@@ -1,290 +1,266 @@
-# SPaCial_AI - Statistical Process Control Web Application
+# SPC Dashboard - Statistical Process Control System
 
-A modern, production-ready Statistical Process Control (SPC) web application built with React 19, TypeScript, and Tailwind CSS. SPaCial_AI provides comprehensive tools for monitoring and controlling manufacturing processes through statistical analysis and control charts.
+A comprehensive Statistical Process Control (SPC) application built with React, TypeScript, and SQLite. This system provides quality control management for manufacturing processes with role-based access control and real-time data management.
 
 ## 🚀 Features
 
-### Core SPC Functionality
-- **Control Charts**: X-bar and R, X-bar and S, I-MR, p-chart, np-chart, c-chart, u-chart
-- **Control Limits**: Automatic calculation of UCL, LCL, and center lines
-- **Western Electric Rules**: Detection of 8 Nelson rules for out-of-control conditions
-- **Process Capability**: Cp, Cpk, Pp, Ppk calculations with sigma levels
-- **Real-time Monitoring**: Live data updates and violation alerts
+### Core Functionality
+- **User Management**: Role-based authentication (Admin, Controle, Method, Production)
+- **Registration System**: Secure user registration with admin approval
+- **Database Management**: SQLite database with file system storage
+- **Real-time Notifications**: Internal notification system for user actions
+- **Multi-language Support**: English, French, and Spanish
 
-### Data Management
-- **Import/Export**: CSV and Excel file support
-- **Data Validation**: Automatic data quality checks
-- **Batch Tracking**: Support for lot/batch identification
-- **Multiple Variables**: Handle different measurement types
-- **Data Persistence**: LocalStorage with automatic backup
+### Manufacturing Modules
+- **Sections (Ateliers)**: Workshop management with workstation assignments
+- **Families**: Product family organization
+- **Products**: Product catalog with specifications
+- **Routes (Gammes)**: Manufacturing route definitions
+- **Features**: Quality characteristics and specifications
+- **Measurements**: Data collection and analysis
 
-### Dashboard & Analytics
-- **Interactive Charts**: Zoom, pan, and point selection
-- **Statistical Summary**: Comprehensive process statistics
-- **Alert System**: Configurable notifications for violations
-- **Multi-process Views**: Compare different processes
-- **Trend Analysis**: Pattern detection and forecasting
+### Security & Access Control
+- **Encrypted Passwords**: Secure password hashing
+- **Registration Codes**: Admin-generated codes for user registration
+- **Method User Validation**: Section-based user approval
+- **Session Management**: Auto-logout and session validation
 
-### User Experience
-- **Responsive Design**: Works on desktop, tablet, and mobile
-- **Dark/Light Theme**: System preference detection
-- **Professional UI**: Clean, industrial interface
-- **Keyboard Shortcuts**: Power user features
-- **PWA Support**: Offline capabilities
+## 🛠️ Technology Stack
 
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19 + TypeScript
-- **Styling**: Tailwind CSS + Headless UI
-- **Charts**: Chart.js + React-ChartJS-2
+- **Frontend**: React 19, TypeScript, Tailwind CSS
 - **State Management**: Zustand
-- **Forms**: React Hook Form + Zod validation
-- **Data Processing**: Papa Parse (CSV), XLSX (Excel)
-- **PDF Generation**: jsPDF + html2canvas
+- **Database**: SQLite with SQL.js
+- **Authentication**: Custom JWT-like system with bcrypt
+- **Security**: bcryptjs for password hashing, Web Crypto API for data encryption
 - **Build Tool**: Vite
+- **Desktop**: Electron for cross-platform desktop app
 - **Icons**: Heroicons
 
 ## 📦 Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd spacial-ai
-   ```
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Setup
+```bash
+# Clone the repository
+git clone <repository-url>
+cd SPC-Dashboard
 
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+# Install dependencies
+npm install
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
+# Start development server (web version)
+npm run dev
 
-## 🏗️ Project Structure
+# Start Electron desktop app
+npm run electron-dev
 
+# Build for production
+npm run build
+npm run electron-build
+```
+
+### First-Time Setup
+1. Open the application in your browser
+2. You'll be prompted to create the first admin account
+3. Set up your admin username and password
+4. The system will create default groups, ateliers, and workstations
+5. You can now create registration codes for other users
+
+## 🏗️ Architecture
+
+### Database Schema
+- **Users**: User accounts with roles and assignments
+- **Groups**: Permission groups for access control
+- **Ateliers**: Manufacturing sections/workshops
+- **Workstations**: Individual workstations within ateliers
+- **Registration Codes**: Temporary codes for user registration
+- **Validation Requests**: Pending user registration approvals
+- **Notifications**: Internal notification system
+- **Manufacturing Data**: Families, Products, Routes, Features, Measurements
+
+### File Structure
 ```
 src/
 ├── components/
-│   ├── charts/          # Chart components (SPCChart, etc.)
-│   ├── dashboard/       # Dashboard widgets and layout
-│   ├── forms/          # Data entry and configuration forms
-│   ├── reports/        # Report generation components
-│   └── ui/             # Reusable UI components
-├── hooks/              # Custom React hooks
-├── utils/              # Statistical calculations and utilities
-├── stores/             # Zustand state management
-├── types/              # TypeScript type definitions
-├── data/               # Sample data and datasets
-└── lib/                # External library configurations
+│   ├── auth/          # Authentication components
+│   ├── layout/        # Layout components (Sidebar, etc.)
+│   ├── modules/       # Main application modules
+│   └── ui/            # Reusable UI components
+├── services/
+│   ├── database.ts    # Database service
+│   ├── authService.ts # Authentication service
+│   ├── encryption.ts  # Password encryption
+│   └── logger.ts      # Logging service
+├── stores/
+│   ├── useUserStore.ts    # User state management
+│   ├── useAppStore.ts     # App preferences
+│   ├── useThemeStore.ts   # Theme management
+│   └── useI18nStore.ts    # Internationalization
+└── types/
+    └── spc.ts         # TypeScript type definitions
 ```
 
-## 📊 Sample Data
+## 👥 User Roles
 
-The application includes realistic sample datasets for different industries:
+### Admin
+- Full system access
+- User management
+- Registration code creation
+- Database management
+- System configuration
 
-- **Automotive**: Engine piston diameter measurements
-- **Food Processing**: Cookie weight control
-- **Chemical**: pH level monitoring
-- **Electronics**: Resistor resistance testing
-- **Quality Control**: Surface defect counting
+### Controle (Quality Control)
+- Access to quality control modules
+- Feature management
+- Measurement analysis
+- Quality reporting
 
-## 🎯 Usage Guide
+### Method (Manufacturing Methods)
+- Route and feature management
+- User validation for assigned sections
+- Process optimization
+- Method documentation
 
-### Creating Your First Process
+### Production (Operators)
+- Measurement data entry
+- Route execution
+- Basic reporting
+- No administrative access
 
-1. **Select a Process**: Choose from the sample processes or create a new one
-2. **Configure Specifications**: Set upper/lower specification limits and target values
-3. **Import Data**: Upload CSV/Excel files or enter data manually
-4. **Create Charts**: Generate appropriate control charts for your data type
-5. **Monitor**: Watch for control rule violations and process trends
+## 🔐 Security Features
 
-### Chart Types
+### Password Security
+- **bcrypt Hashing**: All passwords are hashed using bcrypt with 12 salt rounds
+- **Secure Storage**: Passwords are never stored in plain text
+- **Production Users**: Can have optional passwords for operator convenience
+- **Password Verification**: Secure password verification using bcrypt.compare()
 
-- **X-bar and R Charts**: For continuous data with subgroups (most common)
-- **X-bar and S Charts**: For continuous data when subgroup size > 10
-- **I-MR Charts**: For individual measurements without subgroups
-- **p-Charts**: For proportion defective data
-- **np-Charts**: For number defective data (constant sample size)
-- **c-Charts**: For defects per unit (constant inspection unit)
-- **u-Charts**: For defects per unit (variable inspection unit)
+### Data Encryption
+- **AES-GCM Encryption**: Confidential data encrypted using AES-GCM with 256-bit keys
+- **Random IVs**: Each encryption uses a unique initialization vector
+- **Key Management**: Secure key generation using crypto.getRandomValues()
+- **Backward Compatibility**: Supports migration from old encryption methods
 
-### Control Rules (Western Electric Rules)
+### Authentication System
+- **Session Management**: Secure session tokens with expiration
+- **Auto-logout**: Inactivity-based automatic logout (30 minutes)
+- **Remember Me**: Secure auto-login for trusted devices
+- **Brute Force Protection**: Login attempt limiting with progressive delays
+- **Role-Based Access**: Granular permissions per role
+- **Secure Registration**: Admin-approved user registration
+- **Data Validation**: Input sanitization and validation
 
-1. **Rule 1**: Point beyond 3-sigma limits
-2. **Rule 2**: Nine consecutive points on same side of center line
-3. **Rule 3**: Six consecutive points increasing or decreasing
-4. **Rule 4**: Fourteen consecutive points alternating up and down
-5. **Rule 5**: Two out of three consecutive points beyond 2-sigma limits
-6. **Rule 6**: Four out of five consecutive points beyond 1-sigma limits
-7. **Rule 7**: Fifteen consecutive points within 1-sigma limits
-8. **Rule 8**: Eight consecutive points beyond 1-sigma limits
+## 📱 Usage
 
-## 📈 Statistical Calculations
+### For Administrators
+1. **Create Registration Codes**: Generate codes for new users
+2. **Manage Users**: Approve/reject registration requests
+3. **Configure System**: Set up ateliers, workstations, and groups
+4. **Monitor Activity**: View logs and system activity
 
-### Control Limits
-- **UCL**: Upper Control Limit = Center Line + (3 × Sigma)
-- **LCL**: Lower Control Limit = Center Line - (3 × Sigma)
-- **CL**: Center Line = Process Mean
+### For Method Users
+1. **Validate Users**: Approve users for your assigned sections
+2. **Manage Routes**: Create and maintain manufacturing routes
+3. **Define Features**: Set up quality characteristics
+4. **Monitor Processes**: Track manufacturing performance
 
-### Process Capability
-- **Cp**: Process capability = (USL - LSL) / (6 × Sigma)
-- **Cpk**: Process capability index = min(CPU, CPL)
-- **CPU**: Upper capability = (USL - Mean) / (3 × Sigma)
-- **CPL**: Lower capability = (Mean - LSL) / (3 × Sigma)
-
-### Capability Interpretation
-- **Cp/Cpk ≥ 1.67**: Excellent (6-sigma process)
-- **Cp/Cpk ≥ 1.33**: Good (4-sigma process)
-- **Cp/Cpk ≥ 1.00**: Marginal (3-sigma process)
-- **Cp/Cpk < 1.00**: Poor (needs improvement)
-
-## 🔧 Configuration
-
-### User Preferences
-- **Theme**: Light, dark, or system preference
-- **Language**: English or Portuguese
-- **Default Sigma Level**: 2σ or 3σ control limits
-- **Chart Colors**: Customizable color schemes
-- **Notifications**: Email and browser alerts
-- **Auto-save**: Automatic data persistence
-
-### Keyboard Shortcuts
-- `Ctrl+N`: New process
-- `Ctrl+S`: Save data
-- `Ctrl+O`: Open file
-- `Ctrl+E`: Export data
-- `Ctrl+D`: Dashboard view
-
-## 📋 Data Formats
-
-### CSV Import Format
-```csv
-Timestamp,Value,Subgroup,Batch,Operator,Notes
-2024-01-01 08:00:00,95.2,1,BATCH-001,John Smith,
-2024-01-01 08:30:00,95.1,1,BATCH-001,John Smith,
-```
-
-### Excel Import Format
-| Timestamp | Value | Subgroup | Batch | Operator | Notes |
-|-----------|-------|----------|-------|----------|-------|
-| 2024-01-01 08:00:00 | 95.2 | 1 | BATCH-001 | John Smith | |
-| 2024-01-01 08:30:00 | 95.1 | 1 | BATCH-001 | John Smith | |
+### For Production Users
+1. **Enter Measurements**: Record quality data
+2. **Follow Routes**: Execute manufacturing processes
+3. **View Reports**: Access production reports
+4. **Update Status**: Mark process completion
 
 ## 🚀 Deployment
 
-### Build for Production
+### Development
 ```bash
-npm run build
+npm run dev
 ```
 
-### Preview Production Build
+### Production Build
 ```bash
+npm run build
 npm run preview
 ```
 
-### Deploy to Vercel
-```bash
-npm install -g vercel
-vercel --prod
-```
+### Environment Variables
+- No environment variables required for basic setup
+- Database is stored locally in the application directory
 
-### Deploy to Netlify
-```bash
-npm run build
-# Upload dist/ folder to Netlify
-```
+## 📊 Database Management
 
-## 🧪 Testing
+### Storage Modes
+- **Browser Mode**: In-memory SQLite database (development)
+- **File System Mode**: Persistent SQLite file (production)
 
-```bash
-# Run tests
-npm run test
+### Backup & Restore
+- **Export**: Download database as SQLite file
+- **Import**: Upload and restore database file
+- **Clear Data**: Reset all data (admin only)
 
-# Run tests with coverage
-npm run test:coverage
+## 🔧 Configuration
 
-# Run tests in watch mode
-npm run test:watch
-```
+### System Settings
+- **Theme**: Light, Dark, or System preference
+- **Language**: English, French, Spanish
+- **Notifications**: Browser and violation alerts
+- **Auto-save**: Automatic data persistence
 
-## 📚 API Reference
+### User Preferences
+- **Dashboard Layout**: Customizable dashboard
+- **Keyboard Shortcuts**: Configurable hotkeys
+- **Display Options**: Chart colors and settings
 
-### Process Data Structure
-```typescript
-interface ProcessData {
-  id: string;
-  name: string;
-  description?: string;
-  dataPoints: DataPoint[];
-  subgroups: Subgroup[];
-  specifications?: Specifications;
-  createdAt: Date;
-  updatedAt: Date;
-}
-```
+## 📈 Monitoring & Logging
 
-### Chart Configuration
-```typescript
-interface ChartConfig {
-  id: string;
-  type: ChartType;
-  processId: string;
-  title: string;
-  sigmaLevel: number;
-  showSpecifications: boolean;
-  showTrendLine: boolean;
-  showCapability: boolean;
-  colors: ChartColors;
-}
-```
+### Activity Logs
+- **User Actions**: Login, logout, data changes
+- **System Events**: Database operations, errors
+- **Security Events**: Failed logins, access attempts
+- **Performance**: Response times, query performance
+
+### Notifications
+- **Registration Requests**: New user approvals needed
+- **System Alerts**: Critical system events
+- **Quality Alerts**: Out-of-control measurements
+- **User Updates**: Account changes and status
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🆘 Support
 
-- **Documentation**: Check this README and inline code comments
-- **Issues**: Report bugs and feature requests on GitHub
-- **Discussions**: Join community discussions
-- **Email**: Contact support at [your-email@domain.com]
+For support and questions:
+- Check the documentation
+- Review the logs for error details
+- Contact your system administrator
+- Create an issue in the repository
 
-## 🙏 Acknowledgments
+## 🔄 Updates
 
-- **Chart.js**: For excellent charting capabilities
-- **Tailwind CSS**: For beautiful, utility-first styling
-- **React Team**: For the amazing React framework
-- **SPC Community**: For statistical process control best practices
-
-## 🔮 Roadmap
-
-### Version 2.0
-- [ ] Advanced analytics and machine learning
-- [ ] Real-time data streaming
-- [ ] Multi-user collaboration
-- [ ] Advanced reporting templates
-- [ ] Mobile app (React Native)
-
-### Version 1.1
-- [ ] Additional chart types (EWMA, CUSUM)
-- [ ] Advanced control rules
-- [ ] Data transformation tools
-- [ ] Enhanced export options
-- [ ] Performance optimizations
+### Version 2.0.0
+- Complete rewrite with modern React architecture
+- Enhanced security with bcrypt password hashing
+- AES-GCM encryption for confidential data
+- Improved user management system
+- Better database performance
+- Responsive design improvements
+- Electron desktop app support
+- Secure session management
+- Brute force protection
 
 ---
 
-**SPaCial_AI** - Empowering quality professionals with modern statistical process control tools.
+**SPC Dashboard** - Empowering quality control through technology

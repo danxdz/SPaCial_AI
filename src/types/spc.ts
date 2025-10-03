@@ -48,171 +48,128 @@ export type ChartType =
 
 export interface ChartConfig {
   id: string;
+  name: string;
   type: ChartType;
   processId: string;
-  title: string;
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  sigmaLevel: number;
-  showSpecifications: boolean;
-  showTrendLine: boolean;
-  showCapability: boolean;
-  colors: ChartColors;
-}
-
-export interface ChartColors {
-  dataPoint: string;
-  centerLine: string;
-  controlLimits: string;
-  specificationLimits: string;
-  outOfControl: string;
-  trendLine: string;
+  specifications?: Specifications;
+  controlLimits?: ControlLimits;
+  subgroups?: Subgroup[];
+  dataPoints?: DataPoint[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ControlLimits {
   ucl: number; // Upper Control Limit
   lcl: number; // Lower Control Limit
-  cl: number;  // Center Line
-  sigma: number;
+  centerLine: number;
+  sigmaLevel: number;
 }
 
-export interface ChartData {
-  labels: string[];
-  datasets: ChartDataset[];
-  controlLimits: ControlLimits;
-  specifications?: Specifications;
+// User and Authentication Types
+export interface User {
+  id: number;
+  username: string;
+  role: 'admin' | 'controle' | 'method' | 'prod';
+  group_id?: number;
+  group_name?: string;
+  workstation_id?: number;
+  workstation_name?: string;
+  workshop_id?: number;
+  workshop_name?: string;
 }
 
-export interface ChartDataset {
-  label: string;
-  data: number[];
-  borderColor: string;
-  backgroundColor: string;
-  pointBackgroundColor: string;
-  pointBorderColor: string;
-  pointRadius: number;
-  pointHoverRadius: number;
-  tension?: number;
-  fill?: boolean;
-}
-
-// Statistical Calculations
-export interface ProcessCapability {
-  cp: number;
-  cpk: number;
-  pp: number;
-  ppk: number;
-  cpu: number;
-  cpl: number;
-  sigma: number;
-  ppm: number;
-}
-
-export interface StatisticalSummary {
-  count: number;
-  mean: number;
-  median: number;
-  mode: number;
-  stdDev: number;
-  variance: number;
-  range: number;
-  min: number;
-  max: number;
-  q1: number;
-  q3: number;
-  iqr: number;
-  skewness: number;
-  kurtosis: number;
-}
-
-// Control Rules (Western Electric Rules)
-export interface ControlRule {
-  id: string;
+// Database Entity Types
+export interface Workshop {
+  id: number;
   name: string;
-  description: string;
-  enabled: boolean;
-  severity: 'warning' | 'error';
+  description?: string;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-export interface RuleViolation {
-  id: string;
-  ruleId: string;
-  ruleName: string;
-  severity: 'warning' | 'error';
-  dataPoints: number[];
-  description: string;
-  timestamp: Date;
-}
-
-// Dashboard and UI
-export interface DashboardWidget {
-  id: string;
-  type: 'chart' | 'summary' | 'alert' | 'gauge';
-  title: string;
-  chartConfig?: ChartConfig;
-  position: { x: number; y: number; w: number; h: number };
-  visible: boolean;
-}
-
-export interface Dashboard {
-  id: string;
+export interface Workstation {
+  id: number;
   name: string;
-  widgets: DashboardWidget[];
-  layout: 'grid' | 'free';
-  createdAt: Date;
-  updatedAt: Date;
+  workshop_id: number;
+  description?: string;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// Data Import/Export
-export interface ImportOptions {
-  fileType: 'csv' | 'excel';
-  hasHeader: boolean;
-  delimiter?: string;
-  dateFormat?: string;
-  valueColumn: number;
-  timestampColumn?: number;
-  subgroupColumn?: number;
-  batchColumn?: number;
+export interface Family {
+  id: number;
+  name: string;
+  description?: string;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
+  // Many-to-many relationship with workshops through family_workshops junction table
+  workshops?: Workshop[];
 }
 
-export interface ExportOptions {
-  format: 'csv' | 'excel' | 'pdf';
-  includeCharts: boolean;
-  includeStatistics: boolean;
-  includeData: boolean;
-  dateRange?: {
-    start: Date;
-    end: Date;
-  };
+export interface FamilyWorkshop {
+  id: number;
+  family_id: number;
+  workshop_id: number;
+  created_at: string;
+  updated_at: string;
 }
 
-// User Preferences
-export interface UserPreferences {
-  theme: 'light' | 'dark' | 'system';
-  language: 'en' | 'pt';
-  defaultSigmaLevel: number;
-  chartColors: ChartColors;
-  autoSave: boolean;
-  notifications: {
-    email: boolean;
-    browser: boolean;
-    violations: boolean;
-  };
-  keyboardShortcuts: Record<string, string>;
+export interface Product {
+  id: number;
+  name: string;
+  description?: string;
+  family_id?: number;
+  workshop_id?: number;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// Application State
-export interface AppState {
-  processes: ProcessData[];
-  currentProcess?: ProcessData;
-  dashboards: Dashboard[];
-  currentDashboard?: Dashboard;
-  preferences: UserPreferences;
-  isLoading: boolean;
-  error?: string;
+export interface Route {
+  id: number;
+  name: string;
+  description?: string;
+  product_id?: number;
+  workshop_id?: number;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// API Response Types
+export interface Feature {
+  id: number;
+  name: string;
+  description?: string;
+  route_id?: number;
+  product_id?: number;
+  workshop_id?: number;
+  specification_min?: number;
+  specification_max?: number;
+  target_value?: number;
+  unit?: string;
+  image_filename?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Measurement {
+  id: number;
+  feature_id: number;
+  route_id?: number;
+  product_id?: number;
+  value: number;
+  operator_id?: number;
+  workstation_id?: number;
+  workshop_id?: number;
+  timestamp: string;
+  notes?: string;
+}
+
+// Utility Types
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -220,51 +177,19 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-// Form Types
-export interface ProcessFormData {
-  name: string;
-  description?: string;
-  specifications?: {
-    usl?: number;
-    lsl?: number;
-    target?: number;
-    unit: string;
-  };
+export interface PaginationParams {
+  page: number;
+  limit: number;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
 }
 
-export interface DataEntryFormData {
-  value: number;
-  timestamp: Date;
-  subgroup?: number;
-  batch?: string;
-  operator?: string;
-  notes?: string;
-}
-
-// Report Types
-export interface ReportTemplate {
-  id: string;
-  name: string;
-  description: string;
-  sections: ReportSection[];
-  defaultFormat: 'pdf' | 'excel' | 'csv';
-}
-
-export interface ReportSection {
-  id: string;
-  type: 'summary' | 'chart' | 'table' | 'text';
-  title: string;
-  content: any;
-  visible: boolean;
-}
-
-export interface GeneratedReport {
-  id: string;
-  templateId: string;
-  processId: string;
-  title: string;
-  generatedAt: Date;
-  format: 'pdf' | 'excel' | 'csv';
-  filePath?: string;
-  size?: number;
+export interface FilterParams {
+  search?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  workshopId?: number;
+  workstationId?: number;
+  userId?: number;
+  role?: string;
 }
